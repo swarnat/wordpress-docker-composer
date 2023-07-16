@@ -1,0 +1,66 @@
+version: '3.3'
+
+services:
+  db:
+     image: mysql:5.7
+     volumes:
+       - mysql-data:/var/lib/mysql
+     environment:
+       MYSQL_ROOT_PASSWORD: rootpass
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wp-user
+       MYSQL_PASSWORD: wp-pass
+
+  wp:
+     image: wordpress-docker
+     depends_on:
+       - db
+     ports:
+       - 8585:8080
+     volumes:
+       - ./composer.json:/var/www/composer.json
+# It is recommended to use a local Composer proxy, like Velocita, when fast deployment is important       
+#      - ./velocita.json:/.composer/velocita.json
+     environment:
+        WP_DB_HOST: db
+        WP_DB_NAME: wordpress
+        WP_DB_USER: wp-user
+        WP_DB_PASSWORD: wp-pass
+        WP_WP_SITEURL: https://domain.com
+        WP_WP_HOME: https://domain.com/
+        WP_WPMS_ON: "true"
+        WP_WPMS_SMTP_HOST: mailserver.domain.com
+        WP_WPMS_SMTP_PORT: 587
+        WP_WPMS_MAIL_FROM: sender@domain.com
+        WP_WPMS_MAIL_FROM_FORCE: "false"
+        WP_WPMS_MAIL_FROM_NAME: 'Domain.com'
+        WP_WPMS_MAIL_FROM_NAME_FORCE: "false"
+        WP_WPMS_SMTP_AUTH: "true"
+        WP_WPMS_SMTP_USER: smtp-user
+        WP_WPMS_SMTP_PASS: smtp-pass
+        WP_WPMS_SSL:
+        WP_WPMS_MAILER: smtp
+
+        WPS3_PROVIDER: custom
+        WPS3_KEY: s3accesskey
+        WPS3_SECRET: s3secretkey
+        WPS3_FOLDER: 
+        WPS3_REGION: de-de
+        WPS3_BUCKET: bucketname
+        WPS3_URL_PREFIX: https://s3.rdomain.com/bucketname/
+# When custom S3 is used
+#        WPS3_PATHSTYLE: "true"
+#        WPS3_ENDPOINT: https://s3.domain.com
+
+# Paste constants from: https://roots.io/salts.html          
+        WP_AUTH_KEY: '#P]Ah3,h,e8j1%{7q`LCviX+,:8H}F2w2;z>-UR68HSj)zmqVs-I&*NWI`G7V'
+        WP_SECURE_AUTH_KEY: 'Mf#hCA]Ld+8?ARrbOV.!vwkJ_b-yb2dWafU?_d:.i4U7r9n^8U&6?GIqN>.dR>_:'
+        WP_LOGGED_IN_KEY: ':@D*uC^f%7Y,pmK,khBoTf_vNm.`YUgAp{MPDvx6,VQHgoH9jU;Sbf+6Xl#nN+Si'
+        WP_NONCE_KEY: 'Ct}K]G%WGxi9o-ublTL5jTk){<bvrL{7KCWM@w^OG[q>lnK<PasW)CttUs:lN:1'
+        WP_AUTH_SALT: ':N5M#44k#v>UnQlhsT6W&1&Sd_?OSRBP:Ep>?#!PnPL,4+*V+n)&Ca(pj[#B7kG'
+        WP_SECURE_AUTH_SALT: '0Z}>iy[%.p]81xBEM<WT:t:[BsE*Xv5i|k-rOf7m!R^t]FZaYj-/eOY*.7/bKVr'
+        WP_LOGGED_IN_SALT: '*(ITH2fb_@?y|]vf@Z|39vWwgMP]J&9E60;YmNq]SYh:q886)_vF2m9Ohi]qmC4'
+        WP_NONCE_SALT: '{nLNqWme{KYw(#^fKD*6GWGXkd)AlP3Z}_i(+4y7MbAja3m_J)u:x0Hb9Iln+48('
+
+volumes:
+  mysql-data:
