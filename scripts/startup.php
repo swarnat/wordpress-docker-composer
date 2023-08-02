@@ -32,8 +32,6 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
     $_SERVER['HTTPS'] = 'on';
 }
 
-$_SERVER['HTTPS'] = 'off';
-
 // Disable setup of files
 define('DISALLOW_FILE_MODS',true);
 
