@@ -93,7 +93,7 @@ WORKDIR /var/www/html
 # Expose the port nginx is reachable on
 EXPOSE 8080
 
-HEALTHCHECK --interval=5s --retries=10 CMD \
+HEALTHCHECK --interval=5s --retries=30 CMD \
     [[ "$(curl -o /dev/null -s -w "%{http_code}\n" http://localhost:8080/fpm-status)" == "200" ]]
 
 RUN composer global config allow-plugins.isaac/composer-velocita true && \
