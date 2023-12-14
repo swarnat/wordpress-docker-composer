@@ -1,0 +1,17 @@
+defaults:
+    environment:
+      - key: PATH
+        value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    shell: /bin/sh
+    utc: false
+
+jobs:
+  - name: test-01
+    command: cd /var/www/html/; wp cron event run --due-now
+    schedule:
+      minute: "*/5"
+      dayOfMonth: "*"
+      month: "*"
+      year: "*"
+      dayOfWeek: "*"
+    captureStdout: true

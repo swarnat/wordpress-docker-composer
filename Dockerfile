@@ -44,6 +44,7 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 # Configure PHP-FPM
 COPY config/fpm-pool.conf /usr/local/etc/php-fpm.d/www.conf
 COPY config/php.ini /usr/local/etc/php/conf.d/custom.ini
+COPY crons/ /var/www/crons/
 
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
@@ -58,6 +59,7 @@ RUN mkdir /.composer/ && \
     chown nobody:nogroup /.composer/ -R && \
     chmod +x /scripts/startup.sh && \
     chown nobody:nogroup /var/www/ && \
+    chown nobody:nogroup /var/www/crons -R && \
     chown nobody:nogroup /var/www/html/
     
 # Configure nginx

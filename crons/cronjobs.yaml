@@ -1,0 +1,7 @@
+defaults:
+    environment:
+      - key: PATH
+        value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    shell: /bin/sh
+    utc: false
+
