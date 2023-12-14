@@ -6,10 +6,10 @@ defaults:
     utc: false
 
 jobs:
-  - name: test-01
+  - name: WP-Cron
     command: cd /var/www/html/; wp cron event run --due-now
     schedule:
-      minute: "*/5"
+      minute: "*/10"
       dayOfMonth: "*"
       month: "*"
       year: "*"
