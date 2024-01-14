@@ -5,9 +5,9 @@ cd /var/www/
 echo "Install composer"
 composer install -d /var/www/
 
-COMPOSER=/var/www/composer.json composer run-script wpd-script -d /var/www/html/
-
 php /scripts/startup.php
+
+COMPOSER=/var/www/composer.json composer run-script wpd-script -d /var/www/html/
 
 cp /var/www/crons/cron-wp.dist.yaml /var/www/crons/cronjobs.yaml
 
