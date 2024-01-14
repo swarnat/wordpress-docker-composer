@@ -5,7 +5,7 @@ cd /var/www/
 echo "Install composer"
 composer install -d /var/www/
 
-COMPOSER=/var/www/composer.json composer run-script wpd-script
+COMPOSER=/var/www/composer.json composer run-script wpd-script -d /var/www/html/
 
 php /scripts/startup.php
 
