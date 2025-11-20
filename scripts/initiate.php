@@ -19,7 +19,7 @@ if(!empty($envVars["CUSTOMFILE_FETCHURL"])) {
     }
 
     $response = curl_exec($ch);
-    
+
     if (curl_errno($ch)) {
         die("Curl Error: " . curl_error($ch));
     }
@@ -41,14 +41,12 @@ if(!empty($envVars["CUSTOMFILE_FETCHURL"])) {
             // extract file extensions
             $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
-            $filename = preg_replace("/[^0-9A-Za-z-_.]/", "", $filename);
-
             if (!in_array($extension, $allowedExtensions, true)) {
                 echo "Skip (File extension not allowed): $filename\n";
                 continue;
             }
 
-            file_put_contents("/var/www/html/" . $filename, $content);
+            file_put_contents($filename, $content);
             echo "Created: $filename\n";
         }
     
@@ -64,6 +62,6 @@ foreach($envVars as $envVar => $value) {
         $filename = strtolower($filename);
         $filename = preg_replace("/[^0-9a-z_]/", "", $filename);
 
-        file_put_contents("/var/www/html/" . $filename . ".json", $value);
+        file_put_contents("/var/www/" . $filename . ".json", $value);
     }
 }
