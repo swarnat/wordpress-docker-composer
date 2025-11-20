@@ -37,7 +37,9 @@ The environment variable **CUSTOMFILE_FETCHURL** can be used to set an URL to fe
 The response should be a JSON in the following structure:  
 {"composer.json": "{ ... Composer definition ... }", "velocita.json": "{ ... velocita configuration ... }"}  
 
-You can only fetch *.json, *.txt and *.lock Files.  
+**You can only fetch \*.json, \*.txt and \*.lock Files.**  
+
+This FETCHURL endpoint can be secured by using a Bearer Token. This should be set into **CUSTOMFILE_FETCHURL_BEARER** envirobnment variable.  
 
 ### Custom files per environment
 

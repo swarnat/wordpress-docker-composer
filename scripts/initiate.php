@@ -7,10 +7,16 @@ $allowedExtensions = ['json', 'txt'];
 
 if(!empty($envVars["CUSTOMFILE_FETCHURL"])) {
     $ch = curl_init($envVars["CUSTOMFILE_FETCHURL"]);
+
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer $token"
-    ]);
+
+    if(!empty($envVars["CUSTOMFILE_FETCHURL_BEARER"])) {
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Authorization: Bearer " . $envVars["CUSTOMFILE_FETCHURL_BEARER"]
+        ]);
+
+        unset($envVars["CUSTOMFILE_FETCHURL_BEARER"]);
+    }
 
     $response = curl_exec($ch);
 
