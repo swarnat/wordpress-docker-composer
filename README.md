@@ -19,6 +19,7 @@ When a customer ask for this and get something customized it isn't easy to use a
 And one big side effect is, that wp-admin is opened over **/wp/wp-admin**, which makes is confuse default developers, which also works on original deployment situation.
 
 ## What happens with media files?
+
 Now we have a deployment, which can be reconstructed with the help of composer, we now must make sure, also media files are not stored locally.  
 There are many powerfull plugins for this use case, which often use AWS, Google Cloud, DigitalOcean, etc. to store files. Because of GDPR, this often is a big discussion in germany, to use such providers. And often custom S3 hosters, of MinIO instances are used. That's why the plugin must provide a custom S3 configuration, which often is only used after monthly payments / subscription of license fees for plugins.  
 I don't need 70% of these plugins and normally also don't need a configuration UI, because it is used only automated. And so I implemented a small plugin, called "[wp-s3-offload](https://packagist.org/packages/swarnat/wp-s3-offload)" myself, which store files on any S3 storage. Currently not available over wordpress.org store, but [fully open source](https://github.com/swarnat/wp-s3-offloading).  
@@ -30,9 +31,24 @@ But to be honest: Every one of these plugins is working great:
   - https://de.wordpress.org/plugins/upcasted-s3-offload/
   - *... much more*
 
-## Setup
+## Configuration
 
-You need only one file to start using this image: The composer.json file.
+The environment variable **CUSTOMFILE_FETCHURL** can be used to set an URL to fetch custom files, which are placed within the container.  
+The response should be a JSON in the following structure:  
+{"composer.json": "{ ... Composer definition ... }", "velocita.json": "{ ... velocita configuration ... }"}  
+
+You can only fetch *.json, *.txt and *.lock Files.  
+
+### Custom files per environment
+
+You can also set environment variables like: **CUSTOMFILE_JSON_COMPOSER**  and define the composer.json within this environment variable.  
+The filename is stored after "CUSTOMFILE_JSON_" and converted into lowercase and extended by ".json".  
+
+This gives you multiple ways to prevent using file mounts.
+
+## custom file mounts
+
+You can also mount custom files into the container, like the composer.json:
 
 ```json
 {

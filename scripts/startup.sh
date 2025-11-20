@@ -2,6 +2,8 @@
 
 cd /var/www/
 
+php /scripts/initiate.php
+
 echo "Install composer"
 composer install -d /var/www/
 
