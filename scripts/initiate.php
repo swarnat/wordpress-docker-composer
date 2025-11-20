@@ -3,7 +3,7 @@
 $envVars = getenv();
 
 echo "+++ generate custom files" . PHP_EOL;
-$allowedExtensions = ['json', 'txt'];
+$allowedExtensions = ['json', 'txt', 'lock'];
 
 if(!empty($envVars["CUSTOMFILE_FETCHURL"])) {
     $ch = curl_init($envVars["CUSTOMFILE_FETCHURL"]);
@@ -18,12 +18,14 @@ if(!empty($envVars["CUSTOMFILE_FETCHURL"])) {
         unset($envVars["CUSTOMFILE_FETCHURL_BEARER"]);
     }
 
+    $response = curl_exec($ch);
+    
     if (curl_errno($ch)) {
         die("Curl Error: " . curl_error($ch));
     }
 
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+    curl_close($ch); 
 
     if ($httpCode === 200) {
 
