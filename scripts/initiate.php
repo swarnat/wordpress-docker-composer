@@ -18,33 +18,38 @@ if(!empty($envVars["CUSTOMFILE_FETCHURL"])) {
         unset($envVars["CUSTOMFILE_FETCHURL_BEARER"]);
     }
 
-    $response = curl_exec($ch);
-
-    if ($httpCode !== 200) {
-        die("Error: HTTP $httpCode\nResponse:\n$response");
+    if (curl_errno($ch)) {
+        die("Curl Error: " . curl_error($ch));
     }
 
-    // JSON dekodieren
-    $data = json_decode($response, true);    
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
 
-    if (!is_array($data)) {
-        die("invalid response: $response");
-    }
+    if ($httpCode === 200) {
 
-    foreach ($data as $filename => $content) {
+        // JSON dekodieren
+        $data = json_decode($response, true);    
 
-        // extract file extensions
-        $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-
-        $filename = preg_replace("/[^0-9A-Za-z-_.]/", "", $filename);
-
-        if (!in_array($extension, $allowedExtensions, true)) {
-            echo "Skip (File extension not allowed): $filename\n";
-            continue;
+        if (!is_array($data)) {
+            die("invalid response: $response");
         }
 
-        file_put_contents("/var/www/html/" . $filename, $content);
-        echo "Created: $filename\n";
+        foreach ($data as $filename => $content) {
+
+            // extract file extensions
+            $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+            $filename = preg_replace("/[^0-9A-Za-z-_.]/", "", $filename);
+
+            if (!in_array($extension, $allowedExtensions, true)) {
+                echo "Skip (File extension not allowed): $filename\n";
+                continue;
+            }
+
+            file_put_contents("/var/www/html/" . $filename, $content);
+            echo "Created: $filename\n";
+        }
+    
     }
 
 }
