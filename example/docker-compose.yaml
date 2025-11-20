@@ -48,6 +48,7 @@ services:
         WPS3_REGION: de-de
         WPS3_BUCKET: bucketname
         WPS3_URL_PREFIX: https://s3.rdomain.com/bucketname/
+
 # When custom S3 is used
 #        WPS3_PATHSTYLE: "true"
 #        WPS3_ENDPOINT: https://s3.domain.com
@@ -62,5 +63,7 @@ services:
         WP_LOGGED_IN_SALT: '*(ITH2fb_@?y|]vf@Z|39vWwgMP]J&9E60;YmNq]SYh:q886)_vF2m9Ohi]qmC4'
         WP_NONCE_SALT: '{nLNqWme{KYw(#^fKD*6GWGXkd)AlP3Z}_i(+4y7MbAja3m_J)u:x0Hb9Iln+48('
 
+# When needed, you can define a source of composer.json variables
+#        CUSTOMFILE_FETCHURL: 'https://www.domain.com/wordpress-configfiles'
 volumes:
   mysql-data:
