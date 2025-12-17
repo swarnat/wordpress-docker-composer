@@ -3,7 +3,7 @@
 $envVars = getenv();
 
 echo "+++ generate custom files" . PHP_EOL;
-$allowedExtensions = ['json', 'txt', 'lock'];
+$allowedExtensions = ['json', 'txt', 'lock', 'conf'];
 
 if(!empty($envVars["CUSTOMFILE_FETCHURL"])) {
     $ch = curl_init($envVars["CUSTOMFILE_FETCHURL"]);
@@ -64,4 +64,5 @@ foreach($envVars as $envVar => $value) {
 
         file_put_contents("/var/www/" . $filename . ".json", $value);
     }
+
 }
